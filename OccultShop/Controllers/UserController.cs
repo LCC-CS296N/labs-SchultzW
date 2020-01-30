@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -18,6 +18,7 @@ using RestSharp;
 
 namespace Midterm.Controllers
 {
+    [Authorize(Roles ="Admin, Customer")]
     public class UserController : Controller
     {
         ICartRepo cRepo;
@@ -77,7 +78,7 @@ namespace Midterm.Controllers
             }
             catch
             {
-                return View("Error");
+                return View("Error","home");
 
             }
 
@@ -111,7 +112,7 @@ namespace Midterm.Controllers
             }
             catch
             {
-                return View("Error");
+                return View("Error","home");
 
             }
         }
@@ -146,7 +147,7 @@ namespace Midterm.Controllers
             }
             catch
             {
-                return View("Error");
+                return View("Error", "home");
 
             }
 
@@ -206,7 +207,7 @@ namespace Midterm.Controllers
             }
             catch
             {
-                return View("Error");
+                return View("Error", "home");
 
             }
 
@@ -222,7 +223,7 @@ namespace Midterm.Controllers
             }
             catch
             {
-                return View("Error");
+                return View("Error", "home");
 
             }
            
@@ -261,10 +262,11 @@ namespace Midterm.Controllers
             }
             catch
             {
-                return View("Error");
+                return View("Error", "home");
             }
            
         }
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> UserSignUpInfo(AppUser model)
         {
@@ -330,7 +332,7 @@ namespace Midterm.Controllers
             }
             catch
             {
-                return View("Error");
+                return View("Error", "home");
             }
 
 
