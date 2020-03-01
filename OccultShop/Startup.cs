@@ -111,7 +111,7 @@ namespace Midterm
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            context.Database.Migrate();
+            //context.Database.Migrate();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
