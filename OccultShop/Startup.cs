@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using OccultShop.Infrastructure;
 using OccultShop.Repos;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace Midterm
 {
@@ -75,6 +76,9 @@ namespace Midterm
                 Configuration["ConnectionStrings:LocalDbConnection"]));
             services.ConfigureApplicationCookie(opts =>
                         opts.LoginPath = "/Admin/Login");
+            services.AddDbContext<AppDbContext>(options =>
+                    options.UseMySql(Configuration.GetConnectionString("MySqlConnection")));
+            services.AddControllers().AddNewtonsoftJson();
 
 
         }
@@ -96,7 +100,7 @@ namespace Midterm
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
-                context.Response.Headers.Add("X-XSS-Protection", 1);
+                context.Response.Headers.Add("X-XSS-Protection", "1");
                 await next();
             });
             app.UseCors(MyAllowSpecificOrigins);
@@ -114,9 +118,9 @@ namespace Midterm
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-           
+            app.UseStaticFiles();
             SeedData.Seed(context);
-            AppDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
+            //AppDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
         }
     }
 }
